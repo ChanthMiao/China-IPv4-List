@@ -105,17 +105,17 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload geoip.dat
+      - name: Upload cn.txt
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./publish/cn.txt
-          asset_name: cn.txt
+          asset_name: 
           asset_content_type: text/plain
 
-      - name: Upload geoip.dat sha256sum
+      - name: Upload cn.txt.sha256sum
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
