@@ -32,7 +32,6 @@ jobs:
 
       - name: Install packages.
         run: |
-          sudo apt-get update && sudo apt-get install -y bgpdump
           cargo install bgptools
           go get github.com/zhanhb/cidr-merger
         shell: bash
@@ -57,17 +56,15 @@ jobs:
         run: |
           wget -O rib.bz2 "http://archive.routeviews.org/dnszones/rib.bz2"
 
-      - name: Dump bgp date.
+      - name: extract bgp data.
         run: |
-          echo "running bgpdump ..."
-          bgpdump -m -O rib.txt rib.bz2
-          echo "finish bgpdump"
+          bzip2 -d rib.bz2
         shell: bash
 
       - name: Generate China IPv4 list
         run: |
           cat asnames.txt|grep -P "CN\$"|grep -vPi "AS45102"|awk '{gsub(/AS/, ""); print $1}' > cnasn.list
-          cat cnasn.list|xargs bgptools -b rib.txt|cidr-merger -s|grep -Fv ':' > cn.txt
+          cat cnasn.list|xargs bgptools -m rib|cidr-merger -s|grep -Fv ':' > cn.txt
         shell: bash
 
       - name: Generate cn.txt sha256 hash
