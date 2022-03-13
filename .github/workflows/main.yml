@@ -20,6 +20,9 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    env:
+      GO111MODULE: on
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup Go environment
@@ -44,7 +47,8 @@ jobs:
         shell: bash
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout main branch
+        uses: actions/checkout@v3
         with:
           ref: main
 
@@ -74,21 +78,16 @@ jobs:
           sha256sum cn.txt > cn.txt.sha256sum
         shell: bash
 
-      - name: Move files to publish directory
-        run: |
-          mkdir -p publish
-          mv cn.txt cn.txt.sha256sum ./publish
-        shell: bash
+      - name: Checkout release branch
+        uses: actions/checkout@v3
+        with:
+          ref: release
 
       - name: Git push assets to "release" branch
         run: |
-          cd publish || exit 1
-          git init
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b release
-          git add cn.txt cn.txt.sha256sum
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git add .
           git commit -m "${{ env.RELEASE_NAME }}"
-          git remote add China-IPv6-List "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-          git push -f -u China-IPv6-List release
+          git push
         shell: bash
