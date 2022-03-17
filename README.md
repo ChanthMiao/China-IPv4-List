@@ -25,7 +25,8 @@
 ## 致谢
 
 - 感谢[gaoyifan/china-operator-ip](https://github.com/gaoyifan/china-operator-ip)项目提供的具体实现方法
-- 感谢[Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)项目提供的Github Action编写参考
+- 感谢[Loyalsoldier/geoip](https://github.com/Loyalsoldier/geoip)项目提供的 Github Action 编写参考
+- 感谢[actions/checkout](https://github.com/actions/checkout/discussions/479)提供的 github-actions bot 正确用法
 
 ## License
 
