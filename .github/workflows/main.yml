@@ -85,6 +85,7 @@ jobs:
           path: release
 
       - name: Git push assets to "release" branch
+        if: ${{ github.event_name == 'schedule' }}
         run: |
           mv cn.txt release/
           mv cn.txt.sha256sum release/
